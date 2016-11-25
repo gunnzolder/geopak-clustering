@@ -3,18 +3,25 @@ var originalBounds;
 var map;
 
 function initialize() {
-    center = new google.maps.LatLng(50.460220588157405, 30.54536819458009);
+    //center = new google.maps.LatLng(50.460220588157405, 30.54536819458009);
+    center = {lat: 50.460220588157405, lng: 30.545368194580078};
+
+	console.log(center);
+
 	var mapOptions = {
 	    center: center,
 		zoom: 5
 	};
 	map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 
-	function generateMarkers() {
+	function generateMarkers(n) {
 		var markers = [];
-		for (var i = 0; i < 100; i++) {
-			for (var j = 0; j < 100; j++) {
-				var latLng = new google.maps.LatLng(center.lat() + i/25*Math.random(), center.lng() + j/25*Math.random());
+		for (var i = 0; i < n/10; i++) {
+			for (var j = 0; j < n/10; j++) {
+				//var latLng = new google.maps.LatLng(center.lat() + i/50*Math.random(), center.lng() + j/50*Math.random());
+				var latLng = new google.maps.LatLng(center.lat + i/50*Math.random(), center.lng + j/50*Math.random());
+				console.log(latLng);
+
 				var marker = new google.maps.Marker({position: latLng });
 				marker.setMap(map);
 				markers.push(marker);
@@ -64,8 +71,8 @@ function initialize() {
 		}
 	}
 
-	var markerCluster = new MarkerClusterer(map, generateMarkers(), clusterOptions('custom/m'));
-	var journalCluster = new MarkerClusterer(map, generateMarkers(), clusterOptions('custom/j'));
+	var markerCluster = new MarkerClusterer(map, generateMarkers(500), clusterOptions('custom/m'));
+	var journalCluster = new MarkerClusterer(map, generateMarkers(300), clusterOptions('custom/j'));
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
